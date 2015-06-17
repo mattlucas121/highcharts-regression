@@ -89,13 +89,12 @@
      * Preprocess the data removing all double null arrays e.g. [null, null]
      */
     function _preprocessData(series) {
-        var seriesLength = series.length;
-        while (seriesLength--) {
-            var dataLength = series[seriesLength].data.length;
-            while(dataLength--) {
-                if (series[seriesLength].data[dataLength][0] === null &&
-                    series[seriesLength].data[dataLength][1] === null) {
-                    series[seriesLength].data.splice(dataLength, 1);
+        var sL = series.length;
+        while (sL--) {
+            var dL = series[sL].data.length;
+            while(dL--) {
+                if (series[sL].data[dL].toString() === [null, null].toString()) {
+                    series[sL].data.splice(dL, 1);
                 }
 
             }
