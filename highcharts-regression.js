@@ -10,7 +10,7 @@
     
 
     H.wrap(H.Chart.prototype, 'init', function (proceed) {
-        var series = arguments[1].series ;
+        var series = _preprocessData(arguments[1].series);
         var extraSeries = [];
         var i = 0 ;
         for (i = 0 ; i < series.length ; i++){
@@ -83,9 +83,27 @@
 
         
     });
-    
 
-    
+
+    /**
+     * Preprocess the data removing all double null arrays e.g. [null, null]
+     */
+    function _preprocessData(series) {
+        var seriesLength = series.length;
+        while (seriesLength--) {
+            var dataLength = series[seriesLength].data.length;
+            while(dataLength--) {
+                if (series[seriesLength].data[dataLength][0] === null &&
+                    series[seriesLength].data[dataLength][1] === null) {
+                    series[seriesLength].data.splice(dataLength, 1);
+                }
+
+            }
+        }
+        return series
+    }
+
+
     /**
      * Code extracted from https://github.com/Tom-Alexander/regression-js/
      */
